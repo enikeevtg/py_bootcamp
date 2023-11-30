@@ -14,8 +14,11 @@ else:
   if (param.isdigit() == False):
     print(f"parameter \"{param}\" is not valid")
   else:
+    start_of_hash = "00000"
     hashes_count = int(param)
     for i in range(hashes_count):
       hash = input()
-      if (len(hash) == 32 and hash[:5] == "00000" and hash[5] != '0'):
+      if (len(hash) == 32 and
+          hash[:5] == start_of_hash and
+          hash[5] != '0'):
         print(hash)
