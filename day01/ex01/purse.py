@@ -1,32 +1,18 @@
-def empty(purse):
-  return dict(gold_ingots = 0)
+import typing as t
 
-def add_ingot(purse):
-  if len(purse) > 0:
-    new_ingots_count = purse['gold_ingots'] + 1
-  else:
-    new_ingots_count = 0
-  return dict(gold_ingots = new_ingots_count)
+def empty(purse: t.Dict[str, int]):
+  return {}
 
-def get_ingot(purse):
-  if len(purse) > 0:
-    new_ingots_count = purse['gold_ingots']
-    if new_ingots_count > 0:
-      new_ingots_count -= 1
-  else:
-    new_ingots_count = 0
-  return dict(gold_ingots = new_ingots_count)
+def add_ingot(purse: t.Dict[str, int]):
+  purse_copy = purse.copy()
+  new_ingots_count = purse.get('gold_ingots', 0) + 1
+  purse_copy['gold_ingots'] = new_ingots_count
+  return purse_copy
 
-if __name__ == "__main__":
-  purse = {}
-  print("purse = {}:", purse)
-  purse = empty(purse)
-  print("purse = empty(purse):", purse)
-  purse = add_ingot(purse)
-  print("purse = add_ingot(purse):", purse)
-  purse = get_ingot(purse)
-  print("purse = get_ingot(purse):", purse)
-  print("add_ingot(get_ingot(add_ingot(empty(purse))))", end = " == ")
-  print("{'gold_ingots': 1}", end = " is ")
-  print(add_ingot(get_ingot(add_ingot(empty(purse)))) == {'gold_ingots': 1})
- 
+def get_ingot(purse: t.Dict[str, int]):
+  purse_copy = purse.copy()
+  if purse.get('gold_ingots', False) != False:
+    purse_copy["gold_ingots"] = purse.get('gold_ingots') - 1
+    if purse_copy["gold_ingots"] == 0:
+      purse_copy.pop('gold_ingots')
+  return purse_copy
