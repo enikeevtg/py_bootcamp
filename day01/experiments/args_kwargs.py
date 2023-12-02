@@ -18,6 +18,10 @@ def intro(**data):
 
 intro(Firstname="Sita", Lastname="Sharma", Age=22, Phone=1234567890)
 intro(
-    Firstname="John", Lastname="Wood", Email="johnwood@nomail.com",
-    Country="Wakanda", Age=25, Phone=9876543210
-    )
+    Firstname="John",
+    Lastname="Wood",
+    Email="johnwood@nomail.com",
+    Country="Wakanda",
+    Age=25,
+    Phone=9876543210,
+)

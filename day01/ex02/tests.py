@@ -29,7 +29,7 @@ def test_add(purse):
 
 def test_get(purse):
     print("********************")
-    purse['gold_ingots'] = 3
+    purse["gold_ingots"] = 3
     print("test_get(purse):")
     print("\tpurse:", purse)
 
@@ -47,13 +47,12 @@ def test_complex(purse):
     print("{'gold_ingots': 1}", end=" is ")
     print(
       p.add_ingot(p.get_ingot(p.add_ingot(p.empty(purse)))) is
-      {'gold_ingots': 1}
-      )
+      {"gold_ingots": 1})
 
 
 if __name__ == "__main__":
-    os.system('clear')
-    purse = {'coins': 11}
+    os.system("clear")
+    purse = {"coins": 11}
     test_empty(purse)
     test_add(purse)
     test_get(purse)

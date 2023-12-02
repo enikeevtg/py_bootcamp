@@ -3,11 +3,11 @@ import time
 
 
 def animain():
-    string = str('')
+    string = str("")
     for i in range(11):
         time.sleep(1)
         os.system("clear")
-        string += '#'
+        string += "#"
         print(string)
 
 

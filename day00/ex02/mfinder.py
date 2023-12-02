@@ -4,9 +4,7 @@
 import sys
 
 
-m_refereced_lines = ["*   *",
-                     "** **",
-                     "* * *"]
+m_refereced_lines = ["*   *", "** **", "* * *"]
 
 
 def ContentChecking(content):
@@ -24,10 +22,10 @@ def isContainM(content):
         line = content[i].strip()
         filtered_line = ""
         for j in range(5):
-            if line[j] != '*':
-                filtered_line = filtered_line + ' '
+            if line[j] != "*":
+                filtered_line = filtered_line + " "
             else:
-                filtered_line = filtered_line + '*'
+                filtered_line = filtered_line + "*"
         if filtered_line != m_refereced_lines[i]:
             return "False"
     return "True"
