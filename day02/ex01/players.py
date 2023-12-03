@@ -5,7 +5,7 @@ class Player(object):
         self.name = name
 
     def reset_player(self):
-        raise NotImplementedError()
+        pass
 
     def is_put_candy(self, opponent_last_decision: bool) -> bool:
         raise NotImplementedError()
@@ -15,9 +15,6 @@ class Cheater(Player):
     def __init__(self, name="cheater") -> None:
         super().__init__(name)
 
-    def reset_player(self):
-        pass
-
     def is_put_candy(self, opponent_last_decision: bool) -> bool:
         return False
 
@@ -25,9 +22,6 @@ class Cheater(Player):
 class Cooperator(Player):
     def __init__(self, name="cooperator") -> None:
         super().__init__(name)
-
-    def reset_player(self):
-        pass
 
     def is_put_candy(self, opponent_last_decision: bool) -> bool:
         return True
@@ -79,7 +73,7 @@ class Detective(Player):
 
     def is_put_candy(self, opponent_last_decision: bool) -> bool:
         self.current_round += 1
-        if self.current_round <= 5:
+        if self.current_round < 5:
             if opponent_last_decision is False:
                 self.is_cheat_detected = True
             if self.current_round == 2:

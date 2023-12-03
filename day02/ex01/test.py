@@ -1,6 +1,6 @@
 from game import Game
 import players as p
-import os
+# import os
 
 
 def test_strategies_matches(players):
@@ -41,12 +41,18 @@ def test_extra_strategy(checking_player, players):
 
 
 if __name__ == "__main__":
-    os.system('clear')
-    players = [p.Cheater(), p.Cooperator(), p.Copycat(), p.Grudger(),
-               p.Detective()]
-    test_strategies_matches(players)
+    # os.system('clear')
+    # players = [p.Cheater(), p.Cooperator(), p.Copycat(), p.Grudger(),
+    #            p.Detective()]
+    # players = [p.Copycat(), p.Cheater(), p.Cooperator(), p.Grudger(),
+    #            p.Detective()]  # for match with https://ncase.me/trust/
+    # test_strategies_matches(players)
 
-    extra_player = p.ExtraPlayer()
-    players.append(extra_player)
-    test_strategies_matches(players)
-    test_extra_strategy(extra_player, players)
+    # extra_player = p.ExtraPlayer()
+    # players.append(extra_player)
+    # test_strategies_matches(players)
+    # test_extra_strategy(extra_player, players)
+
+    game = Game()
+    game.play()
+    game.top3()
