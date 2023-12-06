@@ -3,8 +3,16 @@
 PY = python3
 
 ex00:
-	cd $@ && python3 exploit.py
+	cd $@ && $(PY) exploit.py
 
+# ex01:
+# 'make cons' in first terninal
+# 'make prod' in second terninal
+cons:
+	$(PY) ./ex01/consumer.py -e 2222222222,4444444444
+
+prod:
+	$(PY) ./ex01/producer.py --mode 0
 
 
 get_packs:	

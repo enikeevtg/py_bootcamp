@@ -40,10 +40,10 @@ def main():
         if el.isdigit() is False:
             args_check = False
 
-    if args_check == True:
+    if args_check is True:
         messages_processing(bad_guys)
     else:
-        print("incorrect element(s) list of bad guys' account numbers")
+        print("incorrect element(s) of bad guys' account numbers list")
 
 
 if __name__ == "__main__":
