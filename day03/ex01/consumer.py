@@ -1,4 +1,5 @@
 import common as com
+import logging as log
 
 
 def get_args() -> list:
@@ -14,6 +15,7 @@ def get_args() -> list:
 
 
 def messages_processing(bad_guys_list: list) -> None:
+    log.basicConfig(level=log.INFO, format="%(asctime)s: %(message)s")
     redis_client = com.Redis(host="localhost", port=com.port, db=com.db)
     sub = redis_client.pubsub()
     sub.subscribe(com.channel_name)
@@ -28,7 +30,7 @@ def messages_processing(bad_guys_list: list) -> None:
             if str(receiver) in bad_guys_list and amount >= 0:
                 parsed_message['metadata']['from'] = receiver
                 parsed_message['metadata']['to'] = sender
-            print(parsed_message)
+            log.info(parsed_message)
 
     redis_client.close()
 

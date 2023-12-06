@@ -38,4 +38,3 @@ if __name__ == "__main__":
     dest_file_path = "../../materials/evilcorp_hacked.html"
     # file_duplicate_by_data(src_file_path, dest_file_path)
     file_duplicate_by_soup(src_file_path, dest_file_path)
-
