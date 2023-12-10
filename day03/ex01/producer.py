@@ -1,9 +1,18 @@
 import common as com
+import argparse
+import redis
+import random
+import json
 import time
+import logging as log
+
+
+log.basicConfig(level=log.INFO, format="\
+%(asctime)s - %(levelname)s: %(message)s")
 
 
 def get_args() -> int:
-    parser = com.ArgumentParser(description="producer.py: generate JSON\
+    parser = argparse.ArgumentParser(description="producer.py: generate JSON\
       messages and put them as a payload into a Redis pubsub queue")
     parser.add_argument("--mode", type=int, default=0, help="type=int.\
       Positive mode provides account numbers number for random generating;\
@@ -13,11 +22,11 @@ def get_args() -> int:
 
 
 def gen_account() -> int:
-    return com.random.randint(com.min_account, com.max_account)
+    return random.randint(com.min_account, com.max_account)
 
 
 def gen_amount() -> int:
-    return com.random.randint(com.min_amount, com.max_amount)
+    return random.randint(com.min_amount, com.max_amount)
 
 
 def gen_message():
@@ -31,12 +40,13 @@ def gen_message():
 
 
 def continuous_messaging() -> None:
-    redis_client = com.Redis(host=com.hostname, port=com.port, db=com.db,
+    redis_client = redis.Redis(host=com.hostname, port=com.port, db=com.db,
                              decode_responses=True)
     redis_client.flushall()
 
     while True:
-        message = com.json.dumps(gen_message())
+        message = json.dumps(gen_message())
+        log.info(f"sent data: {message}")
         redis_client.publish(com.channel_name, str(message))
         time.sleep(1)
 
@@ -45,11 +55,11 @@ def gen_messages_list(messages_number: int) -> list:
     messages_list = []
     if messages_number > 0:
         for i in range(messages_number):
-            messages_list.append(com.json.dumps(gen_message()))
+            messages_list.append(json.dumps(gen_message()))
     else:
-        messages_list.append(com.json.dumps(com.mess_1))
-        messages_list.append(com.json.dumps(com.mess_2))
-        messages_list.append(com.json.dumps(com.mess_3))
+        messages_list.append(json.dumps(com.mess_1))
+        messages_list.append(json.dumps(com.mess_2))
+        messages_list.append(json.dumps(com.mess_3))
     return messages_list
 
 
@@ -59,6 +69,7 @@ def publicate_messages_list(messages_list: list) -> None:
     redis_client.flushall()
     for message in messages_list:
         redis_client.publish(com.channel_name, str(message))
+    
     redis_client.close()
 
 
@@ -71,6 +82,9 @@ def main():
         # for message in messages_list:
         #     print(str(message))
         publicate_messages_list(messages_list)
+        for message in messages_list:
+            log.info(f"sent data: {message}")
+
 
 
 if __name__ == "__main__":

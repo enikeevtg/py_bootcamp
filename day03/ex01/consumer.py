@@ -1,16 +1,20 @@
 import common as com
+import argparse
+import redis
+import json
 import logging as log
 
 
 log.basicConfig(level=log.INFO, format="\
-                %(asctime)s - %(levelname)s: %(message)s")
+%(asctime)s - %(levelname)s: %(message)s")
 
 
 def get_args() -> list:
-    parser = com.ArgumentParser(description="consumer: receiving an\
-                                argument with a list of account numbers")
+    parser = argparse.ArgumentParser(description="consumer: receiving an\
+argument with a list of account numbers")
     parser.add_argument("-e",
                         "--accounts",
+                        required=False,
                         type=str,
                         default=com.default_bad_guys,
                         help="provide a list of bad guys\' account numbers\
@@ -19,21 +23,22 @@ def get_args() -> list:
 
 
 def messages_processing(bad_guys_list: list) -> None:
-    redis_client = com.Redis(host="localhost", port=com.port, db=com.db)
+    redis_client = redis.Redis(host="localhost", port=com.port, db=com.db)
     sub = redis_client.pubsub()
     sub.subscribe(com.channel_name)
 
     for message in sub.listen():
         if message['type'] == "message":
             data = message['data']
-            parsed_message = com.json.loads(data)
+            parsed_message = json.loads(data)
+            log.info(f"received data: {parsed_message}")
             sender = parsed_message['metadata']['from']
             receiver = parsed_message['metadata']['to']
             amount = parsed_message['amount']
             if str(receiver) in bad_guys_list and amount >= 0:
                 parsed_message['metadata']['from'] = receiver
                 parsed_message['metadata']['to'] = sender
-            log.info(parsed_message)
+                log.info(f"modifyed data: {parsed_message}")
 
     redis_client.close()
 
@@ -45,11 +50,10 @@ def main():
         if el.isdigit() is False or len(el) != 10:
             args_check = False
 
-
     if args_check is True:
         messages_processing(bad_guys)
     else:
-        log.warning("incorrect element(s) of bad guys' account numbers list")
+        print("incorrect element(s) of bad guys' account numbers list")
 
 
 if __name__ == "__main__":
