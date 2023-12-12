@@ -5,6 +5,8 @@ PY = python3
 ex00:
 	$(PY) $@/energy.py
 
+ex01:
+	$(PY) $@/personality.py
 
 style:
 	$(PY) -m pycodestyle .
