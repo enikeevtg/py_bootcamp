@@ -85,3 +85,4 @@ if __name__ == "__main__":
         turret.search()
         turret.talk()
         print()
+    turrets_factory.close()
