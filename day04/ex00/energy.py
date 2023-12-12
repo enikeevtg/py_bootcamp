@@ -1,19 +1,19 @@
-import itertools
+from itertools import zip_longest
 import unittest
 
 
 def fix_wiring(c: list, s: list, p: list) -> list:
     return ([f"plug {wiring[0]} into {wiring[1]} using {wiring[2]}"
             for wiring in zip(
-                [c_ for c_ in c if type(c_) is str],
-                [s_ for s_ in s if type(s_) is str],
-                [p_ for p_ in p if type(p_) is str])] +
+                [c_ for c_ in c if isinstance(c_, str)],
+                [s_ for s_ in s if isinstance(s_, str)],
+                [p_ for p_ in p if isinstance(p_, str)])] +
             [f"weld {wiring[0]} to {wiring[1]} without plug"
-            for wiring in itertools.zip_longest(
-                [c_ for c_ in c if type(c_) is str],
-                [s_ for s_ in s if type(s_) is str],
-                [p_ for p_ in p if type(p_) is str]) if wiring[0] and wiring[1]
-                and wiring[2] is None])
+            for wiring in zip_longest(
+                [c_ for c_ in c if isinstance(c_, str)],
+                [s_ for s_ in s if isinstance(s_, str)],
+                [p_ for p_ in p if isinstance(p_, str)]) if wiring[0]
+                and wiring[1] and wiring[2] is None])
 
 
 class Test(unittest.TestCase):
