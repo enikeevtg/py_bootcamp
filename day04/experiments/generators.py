@@ -28,6 +28,7 @@ def test2():
         yield True
         yield False
 
+
 a = test2()
 for i in range(11):
     print(next(a))
@@ -38,6 +39,7 @@ def test_send():
     while True:
         a = yield
         print("a.send(", a, ")")
+
 
 a = test_send()
 next(a)

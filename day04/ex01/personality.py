@@ -2,7 +2,7 @@ import random
 
 
 traits_list = ["neuroticism", "openness", "conscientiousness",
-                "extraversion", "agreeableness"]
+               "extraversion", "agreeableness"]
 
 
 def gen_trait_score(traits_num: int, score_sum: int):
@@ -32,37 +32,42 @@ def gen_traits(traits_list: list) -> dict:
     return traits_dict
 
 
-def turrets_generator(class_name: str="Turret", traits: list=traits_list):
+def turrets_generator(class_name: str = "Turret", traits: list = traits_list):
     parents = (object,)
 
     while True:
-        # field
+        # fields:
         attributes = gen_traits(traits)
 
-        # methods
-        def shoot(self):
-            print("Shooting")
+        # methods:
+        # def shoot(self):
+        #     print("Shooting")
 
-        def search(self):
-            print("Searching")
+        # def search(self):
+        #     print("Searching")
 
-        def talk(self):
-            print("Talking")
+        # def talk(self):
+        #     print("Talking")
 
-        actions = {"shoot": shoot, "search": search, "talk": talk}
+        # actions = {"shoot": shoot, "search": search, "talk": talk}
+        actions = {"shoot": lambda self: print("Shooting"),
+                   "search": lambda self: print("Searching"),
+                   "talk": lambda self: print("Talking")}
         attributes.update(**actions)
 
-        # for magic method __str__
+        # for magic method __str__:
         def get_attributes(self):
             sum = (self.neuroticism + self.openness + self.conscientiousness +
                    self.extraversion + self.agreeableness)
             attributes = (f"class: {class_name}\n" +
-                     f"personality traits: neuroticism({self.neuroticism}), " +
-                     f"openness({self.openness}), " +
-                     f"conscientiousness({self.conscientiousness}), " +
-                     f"extraversion({self.extraversion}), " +
-                     f"agreeableness({self.agreeableness})\n" +
-                     f"*scores sum is {sum}\n" + "actions: shoot, search, talk")
+                          "personality traits: " +
+                          f"neuroticism({self.neuroticism}), " +
+                          f"openness({self.openness}), " +
+                          f"conscientiousness({self.conscientiousness}), " +
+                          f"extraversion({self.extraversion}), " +
+                          f"agreeableness({self.agreeableness})\n" +
+                          f"*scores sum is {sum}\n" +
+                          "actions: shoot, search, talk")
             return attributes
 
         attributes.update({"__str__": get_attributes})
